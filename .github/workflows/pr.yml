@@ -1,0 +1,28 @@
+# Le PR di questo repo provano gli script e i controlli nella versione della PR stessa.
+name: PR
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  prova:
+    name: Prova degli script
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - run: test/prova.sh
+
+  controlli:
+    name: Controlli Norea
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - uses: ./
+        with:
+          base: ${{ github.event.pull_request.base.sha }}

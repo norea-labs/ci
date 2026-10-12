@@ -1,0 +1,28 @@
+# Workflow riutilizzabile: ogni repo di Norea lo richiama su ogni PR.
+name: Controlli Norea
+
+on:
+  workflow_call:
+    inputs:
+      escludi:
+        description: Percorsi da non controllare per i caratteri vietati, uno per riga, nel formato pathspec di git.
+        type: string
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  controlli:
+    name: Controlli Norea
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - uses: norea-labs/ci@main
+        with:
+          base: ${{ github.event.pull_request.base.sha || github.event.before }}
+          escludi: ${{ inputs.escludi }}
