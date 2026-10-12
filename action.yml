@@ -1,0 +1,26 @@
+name: Controlli Norea
+description: Caratteri vietati nelle righe cambiate e forma del CLAUDE.md.
+
+inputs:
+  base:
+    description: Commit di partenza. Vuoto per controllare tutti i file.
+    required: false
+    default: ""
+  escludi:
+    description: Percorsi da non controllare per i caratteri vietati, uno per riga, nel formato pathspec di git.
+    required: false
+    default: ""
+
+runs:
+  using: composite
+  steps:
+    - name: Controlli Norea
+      shell: bash
+      env:
+        NOREA_BASE: ${{ inputs.base }}
+        NOREA_ESCLUDI: ${{ inputs.escludi }}
+      run: |
+        esito=0
+        perl "$GITHUB_ACTION_PATH/script/caratteri-vietati.pl" || esito=1
+        perl "$GITHUB_ACTION_PATH/script/claude-md.pl" "$GITHUB_ACTION_PATH/modello/claude-parte-fissa.md" || esito=1
+        exit $esito
