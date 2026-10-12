@@ -79,7 +79,7 @@ nuovo_repo
 atteso 'CLAUDE.md uguale al modello passa' 0 perl "$claude_md" "$modello"
 { echo '# Progetto'; echo; cat "$modello"; echo; echo 'Parte del progetto.'; } > CLAUDE.md
 atteso 'parte del progetto intorno passa' 0 perl "$claude_md" "$modello"
-sed -i 's/Prima si propone/Prima si fa/' CLAUDE.md
+sed -i '/inizio parte fissa Norea/a riga aggiunta a mano' CLAUDE.md
 atteso 'parte fissa cambiata blocca' 1 perl "$claude_md" "$modello"
 cp "$modello" CLAUDE.md
 grep -v 'fine parte fissa' "$modello" > CLAUDE.md
