@@ -15,8 +15,10 @@ jobs:
       - uses: actions/checkout@v5
       - run: test/prova.sh
 
+  # Stesso nome del controllo negli altri repo, che lo ricevono dal workflow riutilizzabile:
+  # la regola dell'organizzazione su main lo rende obbligatorio con questo nome.
   controlli:
-    name: Controlli Norea
+    name: controlli / Controlli Norea
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
