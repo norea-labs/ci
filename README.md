@@ -6,7 +6,7 @@ I controlli automatici di Norea Labs, scritti una volta sola. Ogni repo li richi
 
 - **Caratteri vietati**: il punto mediano (U+00B7), il trattino lungo (U+2014) e le emoji nelle righe che la PR aggiunge o cambia, in qualsiasi file e da chiunque siano state scritte. Le righe che la PR non tocca non contano, così un repo già esistente può adottare i controlli senza ripulire tutto prima. Titolo, descrizione e commit della PR non vengono controllati.
 - **CLAUDE.md**: deve esistere alla radice del repo, avere meno di 100 righe e contenere la parte fissa identica a `modello/claude-parte-fissa.md`, tra le righe `<!-- inizio parte fissa Norea -->` e `<!-- fine parte fissa Norea -->`. Il resto del file è libero.
-- **Skill di Claude**: nessun file in `.claude/skills/`, `.claude/commands/` o `.claude/agents/`, a qualsiasi profondità del repo. Skill, comandi e agenti stanno nel plugin `norea` (repo `norea-labs/claude-plugins`), così tutto il team ha gli stessi e si aggiornano da soli. Il controllo guarda tutti i file, non solo quelli cambiati dalla PR.
+- **Skill di Claude**: nessun file in `.claude/skills/`, `.claude/commands/` o `.claude/agents/`, a qualsiasi profondità del repo. Skill, comandi e agenti stanno nel plugin `norea` (repo `norea-labs/claude-plugins`), così tutto il team ha gli stessi e si aggiornano da soli. Il controllo guarda tutti i file, non solo quelli cambiati dalla PR. Fa eccezione il repo di un progetto cliente, che può tenere le skill che servono solo a quel progetto (vedi sotto).
 
 Non c'è un controllo sui colori: molti lavori sono per clienti con una palette propria.
 
@@ -36,6 +36,8 @@ Per saltare file che non scriviamo noi, per esempio librerie copiate dentro il r
         vendor/
         public/font/
 ```
+
+Il repo di un progetto cliente può tenere le skill di Claude che servono solo a quel progetto, per esempio il deploy o il dominio del cliente. Il controllo lo riconosce dal topic `cliente` del repo su GitHub (pagina del repo, About, Topics): niente da cambiare nei file.
 
 ## Impostazione del repo
 

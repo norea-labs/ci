@@ -26,3 +26,5 @@ jobs:
         with:
           base: ${{ github.event.pull_request.base.sha || github.event.before }}
           escludi: ${{ inputs.escludi }}
+          # I repo dei clienti hanno il topic "cliente" su GitHub: tengono le skill del loro progetto.
+          skill-del-progetto: ${{ contains(github.event.repository.topics, 'cliente') }}

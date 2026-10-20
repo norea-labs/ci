@@ -107,6 +107,7 @@ mkdir -p sito/.claude/commands; echo 'comando' > sito/.claude/commands/prova.md;
 atteso 'comando in una sottocartella blocca' 1 perl "$skill"
 git rm -rq sito; mkdir -p .claude/agents; echo 'agente' > .claude/agents/revisore.md; cambia
 atteso 'agente nel repo blocca' 1 perl "$skill"
+atteso 'repo di un cliente con skill del progetto passa' 0 env NOREA_SKILL_DEL_PROGETTO=true perl "$skill"
 git rm -rq .claude/agents; mkdir -p plugins/norea/skills/copy; echo 'skill' > plugins/norea/skills/copy/SKILL.md; cambia
 atteso 'skill di un plugin fuori da .claude passa' 0 perl "$skill"
 

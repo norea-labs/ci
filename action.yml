@@ -10,6 +10,10 @@ inputs:
     description: Percorsi da non controllare per i caratteri vietati, uno per riga, nel formato pathspec di git.
     required: false
     default: ""
+  skill-del-progetto:
+    description: true nei repo dei progetti clienti, che possono tenere le skill di Claude che servono solo a quel progetto.
+    required: false
+    default: "false"
 
 runs:
   using: composite
@@ -19,6 +23,7 @@ runs:
       env:
         NOREA_BASE: ${{ inputs.base }}
         NOREA_ESCLUDI: ${{ inputs.escludi }}
+        NOREA_SKILL_DEL_PROGETTO: ${{ inputs.skill-del-progetto }}
       run: |
         esito=0
         perl "$GITHUB_ACTION_PATH/script/caratteri-vietati.pl" || esito=1
