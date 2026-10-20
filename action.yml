@@ -1,5 +1,5 @@
 name: Controlli Norea
-description: Caratteri vietati nelle righe cambiate e forma del CLAUDE.md.
+description: Caratteri vietati nelle righe cambiate, forma del CLAUDE.md e nessuna skill di Claude dentro il repo.
 
 inputs:
   base:
@@ -23,4 +23,5 @@ runs:
         esito=0
         perl "$GITHUB_ACTION_PATH/script/caratteri-vietati.pl" || esito=1
         perl "$GITHUB_ACTION_PATH/script/claude-md.pl" "$GITHUB_ACTION_PATH/modello/claude-parte-fissa.md" || esito=1
+        perl "$GITHUB_ACTION_PATH/script/skill-nel-plugin.pl" || esito=1
         exit $esito

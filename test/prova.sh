@@ -7,6 +7,7 @@ radice=$(cd "$(dirname "$0")/.." && pwd)
 caratteri="$radice/script/caratteri-vietati.pl"
 claude_md="$radice/script/claude-md.pl"
 modello="$radice/modello/claude-parte-fissa.md"
+skill="$radice/script/skill-nel-plugin.pl"
 lungo=$(printf '\xe2\x80\x94')
 mediano=$(printf '\xc2\xb7')
 emoji=$(printf '\xf0\x9f\x98\x80')
@@ -91,6 +92,23 @@ echo 'riga' >> CLAUDE.md
 atteso '100 righe bloccano' 1 perl "$claude_md" "$modello"
 rm CLAUDE.md
 atteso 'CLAUDE.md mancante blocca' 1 perl "$claude_md" "$modello"
+
+# Skill nel plugin
+nuovo_repo
+mkdir -p .claude; echo '{}' > .claude/settings.json; cambia
+atteso 'repo senza skill passa' 0 perl "$skill"
+mkdir -p .claude/skills/copy; echo 'skill' > .claude/skills/copy/SKILL.md; cambia
+atteso 'skill nel repo blocca' 1 perl "$skill"
+uscita=$(perl "$skill")
+atteso 'file indicato giusto' 0 grep -q '^::error file=.claude/skills/copy/SKILL.md,' <<<"$uscita"
+git rm -rq .claude/skills; cambia
+atteso 'skill tolta passa' 0 perl "$skill"
+mkdir -p sito/.claude/commands; echo 'comando' > sito/.claude/commands/prova.md; cambia
+atteso 'comando in una sottocartella blocca' 1 perl "$skill"
+git rm -rq sito; mkdir -p .claude/agents; echo 'agente' > .claude/agents/revisore.md; cambia
+atteso 'agente nel repo blocca' 1 perl "$skill"
+git rm -rq .claude/agents; mkdir -p plugins/norea/skills/copy; echo 'skill' > plugins/norea/skills/copy/SKILL.md; cambia
+atteso 'skill di un plugin fuori da .claude passa' 0 perl "$skill"
 
 if [ "$falliti" -gt 0 ]; then
     echo "$falliti prove fallite."
